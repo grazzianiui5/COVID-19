@@ -1,0 +1,177 @@
+<mvc:View xmlns:core="sap.ui.core" 
+	xmlns:mvc="sap.ui.core.mvc" 
+	xmlns="sap.m" 
+	xmlns:viz="sap.viz.ui5.controls"
+	xmlns:viz.data="sap.viz.ui5.data" 
+	xmlns:viz.feeds="sap.viz.ui5.controls.common.feeds" 
+	xmlns:l="sap.ui.layout"
+	xmlns:semantic="sap.f.semantic"
+	controllerName="corp.basf.ProjectCovid.controller.Main" 
+	xmlns:html="http://www.w3.org/1999/xhtml">
+	<Page title="{i18n>title}">
+		<content>
+			<l:BlockLayout background="Dashboard" visible="true">
+				<l:content>
+					<l:BlockLayoutRow>
+						<l:content>
+							<l:BlockLayoutCell id="Cell1" width='1'>
+								<l:content>
+									<TileContent footer="{i18n>tests}" footerColor='Error' class="sapUiSmallMargin">
+										<NewsContent contentText="{allTests>totalTests}" subheader="{i18n>numberOfCases}"/>
+									</TileContent>
+								</l:content>
+							</l:BlockLayoutCell>
+						</l:content>
+					</l:BlockLayoutRow>
+					<l:BlockLayoutRow>
+						<l:BlockLayoutCell id="Cell2" width='1'>
+							<l:content>
+								<viz:Popover id="idPopOverSick"/>
+								<viz:VizFrame id="idVizFrame1" 
+									uiConfig="{applicationSet: 'fiori'}" 
+									vizType="pie" 
+									vizProperties="{ 
+										title: {
+											text: 'Sick'
+										} 
+									}">
+									<viz:dataset>
+										<viz.data:FlattenedDataset data="{allCountries>/}">
+											<viz.data:dimensions>
+												<viz.data:DimensionDefinition name="country" value="{allCountries>country}"/>
+											</viz.data:dimensions>
+											<viz.data:measures>
+												<viz.data:MeasureDefinition name="cases" value="{allCountries>cases}"/>
+											</viz.data:measures>
+										</viz.data:FlattenedDataset>
+									</viz:dataset>
+									<viz:feeds>
+										<viz.feeds:FeedItem uid="size" type="Measure" values="cases"/>
+										<viz.feeds:FeedItem uid="color" type="Dimension" values="country"/>
+									</viz:feeds>
+								</viz:VizFrame>
+							</l:content>
+						</l:BlockLayoutCell>
+						<l:BlockLayoutCell id="Cell3" width='1'>
+							<l:content>
+								<viz:Popover id="idPopOverRecovered"/>
+								<viz:VizFrame 
+									id="idVizFrame2" 
+									uiConfig="{applicationSet: 'fiori'}" 
+									vizType="pie" 
+									vizProperties="{ 
+										title: {
+											text: 'Recovered'
+										} 
+									}">
+									<viz:dataset>
+										<viz.data:FlattenedDataset data="{allCountries>/}">
+											<viz.data:dimensions>
+												<viz.data:DimensionDefinition name="country" value="{allCountries>country}"/>
+											</viz.data:dimensions>
+											<viz.data:measures>
+												<viz.data:MeasureDefinition name="recovered" value="{allCountries>recovered}"/>
+											</viz.data:measures>
+										</viz.data:FlattenedDataset>
+									</viz:dataset>
+									<viz:feeds>
+										<viz.feeds:FeedItem uid="size" type="Measure" values="recovered"/>
+										<viz.feeds:FeedItem uid="color" type="Dimension" values="country"/>
+									</viz:feeds>
+								</viz:VizFrame>
+							</l:content>
+						</l:BlockLayoutCell>
+						<l:BlockLayoutCell id="Cell4" width='1'>
+							<l:content>
+								<viz:Popover id="idPopOverDeaths"/>
+								<viz:VizFrame 
+									id="idVizFrame3" 
+									uiConfig="{applicationSet: 'fiori'}" 
+									vizType="pie" 
+									vizProperties="{ 
+										title: {
+										text: 'Deaths'
+										}
+									}">
+									<viz:dataset>
+										<viz.data:FlattenedDataset data="{allCountries>/}">
+											<viz.data:dimensions>
+												<viz.data:DimensionDefinition name="country" value="{allCountries>country}"/>
+											</viz.data:dimensions>
+											<viz.data:measures>
+												<viz.data:MeasureDefinition name="deaths" value="{allCountries>deaths}"/>
+											</viz.data:measures>
+										</viz.data:FlattenedDataset>
+									</viz:dataset>
+									<viz:feeds>
+										<viz.feeds:FeedItem uid="size" type="Measure" values="deaths"/>
+										<viz.feeds:FeedItem uid="color" type="Dimension" values="country"/>
+									</viz:feeds>
+								</viz:VizFrame>
+							</l:content>
+						</l:BlockLayoutCell>
+					</l:BlockLayoutRow>
+					<l:BlockLayoutRow>
+						<l:content>
+							<l:BlockLayoutCell id="Cell5" width='1'>
+								<l:content>
+									<semantic:SemanticPage>
+									<semantic:content>
+									<Table 
+										id="idCountriesTable" 
+										growing="true"
+										growingScrollToLoad="true"
+										inset="false" 
+										items="{ 
+											path: 'allCountries>/',
+											parameter : {
+												skip : 1
+											}
+										}">
+										<headerToolbar>
+											<OverflowToolbar>
+												<content>
+													<SearchField 
+														width="40%" 
+														placeholder="Search by Country" 
+														liveChange=".onSearch"/>
+												</content>
+											</OverflowToolbar>
+										</headerToolbar>
+										<columns>
+											<Column minScreenWidth="Tablet" id="columnCountry">
+												<Text text="{i18n>country}"/>
+											</Column>
+											<Column minScreenWidth="Tablet" demandPopin="true" id="columnCases">
+												<Text text="{i18n>cases}"/>
+											</Column>
+											<Column minScreenWidth="Tablet" demandPopin="true" hAlign="End" id="columnRecovered">
+												<Text text="{i18n>recovered}"/>
+											</Column>
+											<Column minScreenWidth="Tablet" demandPopin="true" hAlign="End" id="columnDeaths">
+												<Text text="{i18n>deaths}"/>
+											</Column>
+										</columns>
+										<items>
+											<ColumnListItem>
+												<cells>
+													<ObjectIdentifier title="{allCountries>country}"/>
+													<Text text="{allCountries>cases}"/>
+													<Text text="{allCountries>todayCases}"/>
+													<Text text="{allCountries>recovered}"/>
+													<ObjectNumber number="{allCountries>deaths}"/>
+												</cells>
+											</ColumnListItem>
+										</items>
+									</Table>
+									</semantic:content>
+									</semantic:SemanticPage>
+								</l:content>
+							</l:BlockLayoutCell>
+						</l:content>
+					</l:BlockLayoutRow>
+				</l:content>
+			</l:BlockLayout>
+		</content>
+	</Page>
+</mvc:View>

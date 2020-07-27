@@ -1,0 +1,126 @@
+{
+	"_version": "1.12.0",
+	"sap.app": {
+		"id": "corp.basf.ProjectCovid",
+		"type": "application",
+		"i18n": "i18n/i18n.properties",
+		"applicationVersion": {
+			"version": "1.0.0"
+		},
+		"title": "{{appTitle}}",
+		"description": "{{appDescription}}",
+		"sourceTemplate": {
+			"id": "ui5template.basicSAPUI5ApplicationProject",
+			"version": "1.40.12"
+		},
+		"dataSources": {
+			"ODataAnnotation1": {
+				"uri": "",
+				"type": "ODataAnnotation",
+				"settings": {
+					"localUri": ""
+				}
+			}
+		}
+	},
+	"sap.ui": {
+		"technology": "UI5",
+		"icons": {
+			"icon": "",
+			"favIcon": "",
+			"phone": "",
+			"phone@2": "",
+			"tablet": "",
+			"tablet@2": ""
+		},
+		"deviceTypes": {
+			"desktop": true,
+			"tablet": true,
+			"phone": true
+		}
+	},
+	"sap.ui5": {
+		"flexEnabled": false,
+		"rootView": {
+			"viewName": "corp.basf.ProjectCovid.view.App",
+			"type": "XML",
+			"async": true,
+			"id": "App"
+		},
+		"dependencies": {
+			"minUI5Version": "1.65.6",
+			"libs": {
+				"sap.ui.layout": {},
+				"sap.ui.core": {},
+				"sap.m": {}
+			}
+		},
+		"contentDensities": {
+			"compact": true,
+			"cozy": true
+		},
+		"models": {
+			"i18n": {
+				"type": "sap.ui.model.resource.ResourceModel",
+				"settings": {
+					"bundleName": "corp.basf.ProjectCovid.i18n.i18n"
+				}
+			}
+		},
+		"resources": {
+			"css": [
+				{
+					"uri": "css/style.css"
+				}
+			]
+		},
+		"routing": {
+			"config": {
+				"routerClass": "sap.m.routing.Router",
+				"viewType": "XML",
+				"async": true,
+				"viewPath": "corp.basf.ProjectCovid.view",
+				"controlAggregation": "pages",
+				"controlId": "idApp",
+				"clearControlAggregation": false
+			},
+			"routes": [
+				{
+					"name": "TargetApp",
+					"pattern": "",
+					"target": [
+						"TargetApp"
+					]
+				},
+				{
+					"name": "CountryDetails",
+					"pattern": "Details/{objectId}",
+					"target":[
+						"CountryDetails"
+					]
+				}
+			],
+			"targets": {
+				"TargetApp": {
+					"viewType": "XML",
+					"transition": "slide",
+					"clearControlAggregation": false,
+					"viewId": "idMain",
+					"viewName": "Main",
+					"viewLevel": 1,
+					"controlAggregation": "pages",
+					"title": "Report COVID-19"
+				},
+				"Main": {
+					"viewType": "XML",
+					"viewName": "Main"
+				},
+				"CountryDetails": {
+					"viewType": "XML",
+					"viewLevel": 2,
+					"viewName": "CountryDetails"
+				}
+			}
+		}
+	}
+}
